@@ -50,7 +50,7 @@ int main(){
 
                 compute_CGRS_n_large_Dcost(CGRS_n_large_Dcost_r, CGRSGloop_n_large_Dcost, grover_iteration, grover_processor_num);
                 
-                // grover_processor_num の個数を調整
+                // compute the number of grover_processor_num 
                 while(mpz_cmp(CGRS_n_large_Dcost_r, MAX_DEPTH) > 0){
                     mpz_mul_ui(grover_processor_num, grover_processor_num, 2);
                     compute_CGRS_n_large_Dcost(CGRS_n_large_Dcost_r, CGRSGloop_n_large_Dcost, grover_iteration, grover_processor_num);
@@ -91,7 +91,7 @@ int main(){
 
                 compute_CGRS_m_large_Dcost(CGRS_m_large_Dcost_r, CGRSGloop_m_large_Dcost, grover_iteration, grover_processor_num);
                 
-                // grover_processor_num の個数を調整
+                // compute the number of grover_processor_num
                 while(mpz_cmp(CGRS_m_large_Dcost_r, MAX_DEPTH) > 0){
                     mpz_mul_ui(grover_processor_num, grover_processor_num, 2);
                     compute_CGRS_m_large_Dcost(CGRS_m_large_Dcost_r, CGRSGloop_m_large_Dcost, grover_iteration, grover_processor_num);
@@ -145,11 +145,6 @@ void compute_grover_iteration_m_large(mpz_t grover_iteration, mpz_t n, mpz_t r, 
 }
 
 
-/*
- CGRSGloop_n_large_Gcost, CGRSGloop_n_large_Dcost, CGRSGloop_n_large_ancila, m, n, k, r を引数にとったとき，
- n >= m での古典GRSアルゴリズムの for 文のループ回数の G-cost, D-cost, アンシラビット数を
- それぞれ CGRSGloop_n_large_Gcost, CGRSGloop_n_large_Dcost, CGRSGloop_n_large_ancila に格納する関数
-*/
 void compute_CGRSGloop_n_large(mpz_t CGRSGloop_n_large_Gcost, mpz_t CGRSGloop_n_large_Dcost, mpz_t CGRSGloop_n_large_ancila, mpz_t m, mpz_t n, mpz_t k, mpz_t r){
     mpz_t rankpow_Gcost, rankpow_Dcost, rankpow_ancila;
     mpz_t mulpow_Gcost1, mulpow_Dcost1, mulpow_ancila1;
@@ -200,14 +195,14 @@ void compute_CGRSGloop_n_large(mpz_t CGRSGloop_n_large_Gcost, mpz_t CGRSGloop_n_
     mpz_mul(addpow_Dcost, addpow_Dcost, nMr);
     mpz_mul(addpow_ancila, addpow_ancila, nMr);
 
-    // CGRSGloop_n_large_Gcost を計算する
+    // compute CGRSGloop_n_large_Gcost
     mpz_set(CGRSGloop_n_large_Gcost, rankpow_Gcost);
     mpz_add(CGRSGloop_n_large_Gcost, CGRSGloop_n_large_Gcost, mulpow_Gcost1);
     mpz_add(CGRSGloop_n_large_Gcost, CGRSGloop_n_large_Gcost, GE_Gcost);
     mpz_add(CGRSGloop_n_large_Gcost, CGRSGloop_n_large_Gcost, mulpow_Gcost2);
     mpz_add(CGRSGloop_n_large_Gcost, CGRSGloop_n_large_Gcost, addpow_Gcost);
 
-    // CGRSGloop_n_large_Dcost を計算する
+    // compute CGRSGloop_n_large_Dcost
     mpz_set(CGRSGloop_n_large_Dcost, rankpow_Dcost);
     if(mpz_cmp(mulpow_Dcost1, CGRSGloop_n_large_Dcost) > 0){
         mpz_set(CGRSGloop_n_large_Dcost, mulpow_Dcost1);
@@ -222,7 +217,7 @@ void compute_CGRSGloop_n_large(mpz_t CGRSGloop_n_large_Gcost, mpz_t CGRSGloop_n_
         mpz_set(CGRSGloop_n_large_Dcost, addpow_Dcost);
     }
 
-    // CGRSGloop_n_large_ancila を計算する
+    // compute CGRSGloop_n_large_ancila
     mpz_set(CGRSGloop_n_large_ancila, rankpow_ancila);
     mpz_add(CGRSGloop_n_large_ancila, CGRSGloop_n_large_ancila, mulpow_ancila1);
     mpz_add(CGRSGloop_n_large_ancila, CGRSGloop_n_large_ancila, GE_ancila);
@@ -255,7 +250,7 @@ void compute_CGRS_n_large_Wcost(mpz_t CGRS_n_large_Wcost, mpz_t CGRSGloop_n_larg
     mpz_init(nMm);
     mpz_mul(nMm, n, m);
 
-    // CGRS_n_large_input を計算する
+    // compute CGRS_n_large_input
     mpz_addmul(CGRS_n_large_input, nSk, nMm);
     mpz_addmul(CGRS_n_large_input, nSk, m);
     mpz_add(CGRS_n_large_input, CGRS_n_large_input, nMm);
@@ -268,11 +263,6 @@ void compute_CGRS_n_large_Wcost(mpz_t CGRS_n_large_Wcost, mpz_t CGRSGloop_n_larg
 }
 
 
-/*
- CGRSGloop_m_large_Gcost, CGRSGloop_m_large_Dcost, CGRSGloop_m_large_ancila, m, n, k, r を引数にとったとき，
- m > n での古典GRSアルゴリズムの for 文のループ回数の G-cost, D-cost, アンシラビット数を
- それぞれ CGRSGloop_m_large_Gcost, CGRSGloop_m_large_Dcost, CGRSGloop_m_large_ancila に格納する関数
-*/
 void compute_CGRSGloop_m_large(mpz_t CGRSGloop_m_large_Gcost, mpz_t CGRSGloop_m_large_Dcost, mpz_t CGRSGloop_m_large_ancila, mpz_t m, mpz_t n, mpz_t k, mpz_t r){
     mpz_t rankpow_Gcost, rankpow_Dcost, rankpow_ancila;
     mpz_t mulpow_Gcost1, mulpow_Dcost1, mulpow_ancila1;
@@ -352,7 +342,7 @@ void compute_CGRSGloop_m_large(mpz_t CGRSGloop_m_large_Gcost, mpz_t CGRSGloop_m_
     mpz_mul(addpow_Dcost2, addpow_Dcost2, mMn);
     mpz_mul(addpow_ancila2, addpow_ancila2, mMn);
 
-    // CGRSGloop_m_large_Gcost を計算する
+    // compute CGRSGloop_m_large_Gcost
     mpz_set(CGRSGloop_m_large_Gcost, rankpow_Gcost);
     mpz_add(CGRSGloop_m_large_Gcost, CGRSGloop_m_large_Gcost, mulpow_Gcost1);
     mpz_add(CGRSGloop_m_large_Gcost, CGRSGloop_m_large_Gcost, addpow_Gcost1);
@@ -362,7 +352,7 @@ void compute_CGRSGloop_m_large(mpz_t CGRSGloop_m_large_Gcost, mpz_t CGRSGloop_m_
     mpz_add(CGRSGloop_m_large_Gcost, CGRSGloop_m_large_Gcost, mulpow_Gcost3);
     mpz_add(CGRSGloop_m_large_Gcost, CGRSGloop_m_large_Gcost, addpow_Gcost3);
 
-    // CGRSGloop_m_large_Dcost を計算する
+    // compute CGRSGloop_m_large_Dcost
     mpz_set(CGRSGloop_m_large_Dcost, rankpow_Dcost);
     if(mpz_cmp(mulpow_Dcost1, CGRSGloop_m_large_Dcost) > 0){
         mpz_set(CGRSGloop_m_large_Dcost, mulpow_Dcost1);
@@ -386,7 +376,7 @@ void compute_CGRSGloop_m_large(mpz_t CGRSGloop_m_large_Gcost, mpz_t CGRSGloop_m_
         mpz_set(CGRSGloop_m_large_Dcost, addpow_Dcost3);
     }
 
-    // CGRSGloop_m_large_ancila を計算する
+    // compute CGRSGloop_m_large_ancila
     mpz_set(CGRSGloop_m_large_ancila, rankpow_ancila);
     mpz_add(CGRSGloop_m_large_ancila, CGRSGloop_m_large_ancila, mulpow_ancila1);
     mpz_add(CGRSGloop_m_large_ancila, CGRSGloop_m_large_ancila, addpow_ancila1);
@@ -425,7 +415,7 @@ void compute_CGRS_m_large_Wcost(mpz_t CGRS_m_large_Wcost, mpz_t CGRSGloop_m_larg
     mpz_init(nMm);
     mpz_mul(nMm, n, m);
 
-    // CGRS_m_large_input を計算する
+    // compute CGRS_m_large_input
     mpz_init_set(CGRS_m_large_input, nSkMmMn);
     mpz_add(CGRS_m_large_input, CGRS_m_large_input, nSkMm);
     mpz_add(CGRS_m_large_input, CGRS_m_large_input, nMm);

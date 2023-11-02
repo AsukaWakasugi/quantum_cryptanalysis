@@ -43,7 +43,7 @@ int main(){
                 
                 compute_IQGRS_n_large_Dcost(IQGRS_n_large_Dcost_r, IQGRSGloop_n_large_Dcost, grover_iteration, grover_processor_num, m, w, loop_r);
                                 
-                // grover_processor_num の個数を調整
+                // compute the number of grover_processor_num
                 while(mpz_cmp(IQGRS_n_large_Dcost_r, MAX_DEPTH) > 0){
                     mpz_mul_ui(grover_processor_num, grover_processor_num, 2);
                     compute_IQGRS_n_large_Dcost(IQGRS_n_large_Dcost_r, IQGRSGloop_n_large_Dcost, grover_iteration, grover_processor_num, m, w, loop_r);
@@ -66,7 +66,7 @@ int main(){
             int IQGRS_n_large_Gcost_log = compute_log(IQGRS_n_large_Gcost);
             int IQGRS_n_large_Dcost_log = compute_log(IQGRS_n_large_Dcost);
             int IQGRS_n_large_Wcost_log = compute_log(IQGRS_n_large_Wcost);
-            gmp_printf("n : %Zd, m : %Zd, k : %Zd, w : %Zd, r : %Zd, grover_iteration_log : %d, Gcost_log : %d, Dcost_log : %d, Wcost_log : %d\n", n, m, k, w, r, grover_iteration_log, IQGRS_n_large_Gcost_log, IQGRS_n_large_Dcost_log, IQGRS_n_large_Wcost_log);
+            gmp_printf("n : %Zd, m : %Zd, k : %Zd, w : %Zd, Gcost_log : %d, Dcost_log : %d, Wcost_log : %d\n", n, m, k, w, IQGRS_n_large_Gcost_log, IQGRS_n_large_Dcost_log, IQGRS_n_large_Wcost_log);
         }
         else{
             mpz_t range_end, loop_r;
@@ -85,7 +85,7 @@ int main(){
 
                 compute_IQGRS_m_large_Dcost(IQGRS_m_large_Dcost_r, IQGRSGloop_m_large_Dcost, grover_iteration, grover_processor_num, n, w, loop_r);
                 
-                // grover_processor_num の個数を調整
+                // compute the number of grover_processor_num
                 while(mpz_cmp(IQGRS_m_large_Dcost_r, MAX_DEPTH) > 0){
                     mpz_mul_ui(grover_processor_num, grover_processor_num, 2);
                     compute_IQGRS_m_large_Dcost(IQGRS_m_large_Dcost_r, IQGRSGloop_m_large_Dcost, grover_iteration, grover_processor_num, m, w, loop_r);
@@ -108,16 +108,12 @@ int main(){
             int IQGRS_m_large_Gcost_log = compute_log(IQGRS_m_large_Gcost);
             int IQGRS_m_large_Dcost_log = compute_log(IQGRS_m_large_Dcost);
             int IQGRS_m_large_Wcost_log = compute_log(IQGRS_m_large_Wcost);
-            gmp_printf("n : %Zd, m : %Zd, k : %Zd, w : %Zd, r : %Zd, grover_iteration_log : %d, Gcost_log : %d, Dcost_log : %d, Wcost_log : %d\n", n, m, k, w, r, grover_iteration_log, IQGRS_m_large_Gcost_log, IQGRS_m_large_Dcost_log, IQGRS_m_large_Wcost_log);
+            gmp_printf("n : %Zd, m : %Zd, k : %Zd, w : %Zd, Gcost_log : %d, Dcost_log : %d, Wcost_log : %d\n", n, m, k, w, IQGRS_m_large_Gcost_log, IQGRS_m_large_Dcost_log, IQGRS_m_large_Wcost_log);
         }
     }
 }
 
 
-/*
- grover_iteration_cost, m, r, w を引数にとったとき，
- n >= m での Grover のループ回数を grover_itration に格納する関数
-*/
 void compute_grover_iteration_n_large(mpz_t grover_iteration, mpz_t m, mpz_t r, mpz_t w){
     mpz_t grover_iteration_n_large_denominator, grover_iteration_n_large_numerator;
     mpz_init_set_ui(grover_iteration_n_large_denominator, 1);
@@ -133,10 +129,6 @@ void compute_grover_iteration_n_large(mpz_t grover_iteration, mpz_t m, mpz_t r, 
 }
 
 
-/*
- grover_iteration_cost, n, r, w を引数にとったとき，
- m > n での Grover のループ回数を grover_itration に格納する関数
-*/
 void compute_grover_iteration_m_large(mpz_t grover_iteration, mpz_t n, mpz_t r, mpz_t w){
     mpz_t grover_iteration_m_large_denominator, grover_iteration_m_large_numerator;
     mpz_init_set_ui(grover_iteration_m_large_denominator, 1);
@@ -152,11 +144,6 @@ void compute_grover_iteration_m_large(mpz_t grover_iteration, mpz_t n, mpz_t r, 
 }
 
 
-/*
- CGRSGloop_n_large_Gcost, CGRSGloop_n_large_Dcost, CGRSGloop_n_large_ancila, m, n, k, r を引数にとったとき，
- n >= m での古典GRSアルゴリズムの for 文のループ回数の G-cost, D-cost, アンシラビット数を
- それぞれ CGRSGloop_n_large_Gcost, CGRSGloop_n_large_Dcost, CGRSGloop_n_large_ancila に格納する関数
-*/
 void compute_CGRSGloop_n_large(mpz_t CGRSGloop_n_large_Gcost, mpz_t CGRSGloop_n_large_Dcost, mpz_t CGRSGloop_n_large_ancila, mpz_t m, mpz_t n, mpz_t k, mpz_t r){
     mpz_t rankpow_Gcost, rankpow_Dcost, rankpow_ancila;
     mpz_t mulpow_Gcost1, mulpow_Dcost1, mulpow_ancila1;
@@ -207,14 +194,14 @@ void compute_CGRSGloop_n_large(mpz_t CGRSGloop_n_large_Gcost, mpz_t CGRSGloop_n_
     mpz_mul(addpow_Dcost, addpow_Dcost, nMr);
     mpz_mul(addpow_ancila, addpow_ancila, nMr);
 
-    // CGRSGloop_n_large_Gcost を計算する
+    // compute CGRSGloop_n_large_Gcost
     mpz_set(CGRSGloop_n_large_Gcost, rankpow_Gcost);
     mpz_add(CGRSGloop_n_large_Gcost, CGRSGloop_n_large_Gcost, mulpow_Gcost1);
     mpz_add(CGRSGloop_n_large_Gcost, CGRSGloop_n_large_Gcost, GE_Gcost);
     mpz_add(CGRSGloop_n_large_Gcost, CGRSGloop_n_large_Gcost, mulpow_Gcost2);
     mpz_add(CGRSGloop_n_large_Gcost, CGRSGloop_n_large_Gcost, addpow_Gcost);
 
-    // CGRSGloop_n_large_Dcost を計算する
+    // compute CGRSGloop_n_large_Dcost
     mpz_set(CGRSGloop_n_large_Dcost, rankpow_Dcost);
     if(mpz_cmp(mulpow_Dcost1, CGRSGloop_n_large_Dcost) > 0){
         mpz_set(CGRSGloop_n_large_Dcost, mulpow_Dcost1);
@@ -229,7 +216,7 @@ void compute_CGRSGloop_n_large(mpz_t CGRSGloop_n_large_Gcost, mpz_t CGRSGloop_n_
         mpz_set(CGRSGloop_n_large_Dcost, addpow_Dcost);
     }
 
-    // CGRSGloop_n_large_ancila を計算する
+    // compute CGRSGloop_n_large_ancila
     mpz_set(CGRSGloop_n_large_ancila, rankpow_ancila);
     mpz_add(CGRSGloop_n_large_ancila, CGRSGloop_n_large_ancila, mulpow_ancila1);
     mpz_add(CGRSGloop_n_large_ancila, CGRSGloop_n_large_ancila, GE_ancila);
@@ -238,11 +225,6 @@ void compute_CGRSGloop_n_large(mpz_t CGRSGloop_n_large_Gcost, mpz_t CGRSGloop_n_
 }
 
 
-/*
- IQGRSGloop_n_large_Gcost, IQGRSGloop_n_large_Dcost, IQGRSGloop_n_large_ancila, m, n, k, w, r を引数にとったとき，
- n >= m での改善版量子GRSアルゴリズムの for 文のループ回数の G-cost, D-cost, アンシラビット数を
- それぞれ IQGRSGloop_n_large_Gcost, IQGRSGloop_n_large_Dcost, IQGRSGloop_n_large_ancila に格納する関数
-*/
 void compute_IQGRSGloop_n_large(mpz_t IQGRSGloop_n_large_Gcost, mpz_t IQGRSGloop_n_large_Dcost, mpz_t IQGRSGloop_n_large_ancila, mpz_t m, mpz_t n, mpz_t k, mpz_t w, mpz_t r){
     mpz_t QRA_Gcost1, QRA_Dcost1, QRA_ancila1;
     mpz_t QRA_Gcost2, QRA_Dcost2, QRA_ancila2;
@@ -298,36 +280,21 @@ void compute_IQGRSGloop_n_large(mpz_t IQGRSGloop_n_large_Gcost, mpz_t IQGRSGloop
     compute_OPF_cost(OPF_Gcost, OPF_Dcost, OPF_ancila, Vsize, Msize);
     compute_dif_cost(dif_Gcost, dif_Dcost, dif_ancila, Vsize);
 
-    // mpz_set(QRA_Gcost3, QRA_Gcost1);
-    // mpz_set(QRA_Dcost3, QRA_Dcost1);
-    // mpz_set(QRA_ancila3, QRA_ancila1);
-    // mpz_set(QRA_Gcost4, QRA_Gcost2);
-    // mpz_set(QRA_Dcost4, QRA_Dcost2);
-    // mpz_set(QRA_ancila4, QRA_ancila2);
-
     mpz_mul(QRA_Gcost1, QRA_Gcost1, r);
     mpz_mul(QRA_Dcost1, QRA_Dcost1, r);
     mpz_mul(QRA_ancila1, QRA_ancila1, r);
     mpz_mul(QRA_Gcost2, QRA_Gcost2, r);
     mpz_mul(QRA_Dcost2, QRA_Dcost2, r);
     mpz_mul(QRA_ancila2, QRA_ancila2, r);
-    // mpz_mul(QRA_Gcost3, QRA_Gcost3, nMr);
-    // mpz_mul(QRA_Dcost3, QRA_Dcost3, nMr);
-    // mpz_mul(QRA_ancila3, QRA_ancila3, nMr);
-    // mpz_mul(QRA_Gcost4, QRA_Gcost4, nMr);
-    // mpz_mul(QRA_Dcost4, QRA_Dcost4, nMr);
-    // mpz_mul(QRA_ancila4, QRA_ancila4, nMr);
 
-    // IQGRSGloop_n_large_Gcost の計算
+    // compute IQGRSGloop_n_large_Gcost
     mpz_set(IQGRSGloop_n_large_Gcost, QRA_Gcost1);
     mpz_add(IQGRSGloop_n_large_Gcost, IQGRSGloop_n_large_Gcost, QRA_Gcost2);
     mpz_add(IQGRSGloop_n_large_Gcost, IQGRSGloop_n_large_Gcost, CGRSGloop_n_large_Gcost);
-    // mpz_add(IQGRSGloop_n_large_Gcost, IQGRSGloop_n_large_Gcost, QRA_Gcost3);
-    // mpz_add(IQGRSGloop_n_large_Gcost, IQGRSGloop_n_large_Gcost, QRA_Gcost4);
     mpz_add(IQGRSGloop_n_large_Gcost, IQGRSGloop_n_large_Gcost, OPF_Gcost);
     mpz_add(IQGRSGloop_n_large_Gcost, IQGRSGloop_n_large_Gcost, dif_Gcost);
 
-    // IQGRSGloop_n_large_Dcost の計算
+    // compute IQGRSGloop_n_large_Dcost
     mpz_set(IQGRSGloop_n_large_Dcost, QRA_Dcost1);
     if(mpz_cmp(QRA_Dcost2, IQGRSGloop_n_large_Dcost) > 0){
         mpz_set(IQGRSGloop_n_large_Dcost, QRA_Dcost2);
@@ -335,12 +302,6 @@ void compute_IQGRSGloop_n_large(mpz_t IQGRSGloop_n_large_Gcost, mpz_t IQGRSGloop
     if(mpz_cmp(CGRSGloop_n_large_Dcost, IQGRSGloop_n_large_Dcost) > 0){
         mpz_set(IQGRSGloop_n_large_Dcost, CGRSGloop_n_large_Dcost);
     }
-    // if(mpz_cmp(QRA_Dcost3, IQGRSGloop_n_large_Dcost) > 0){
-    //     mpz_set(IQGRSGloop_n_large_Dcost, QRA_Dcost3);
-    // }
-    // if(mpz_cmp(QRA_Dcost4, IQGRSGloop_n_large_Dcost) > 0){
-    //     mpz_set(IQGRSGloop_n_large_Dcost, QRA_Dcost4);
-    // }
     if(mpz_cmp(OPF_Dcost, IQGRSGloop_n_large_Dcost) > 0){
         mpz_set(IQGRSGloop_n_large_Dcost, OPF_Dcost);
     }
@@ -348,21 +309,15 @@ void compute_IQGRSGloop_n_large(mpz_t IQGRSGloop_n_large_Gcost, mpz_t IQGRSGloop
         mpz_set(IQGRSGloop_n_large_Dcost, dif_Dcost);
     }
 
-    // IQGRSGloop_n_large_ancila の計算
+    // compute IQGRSGloop_n_large_ancila
     mpz_set(IQGRSGloop_n_large_ancila, QRA_ancila1);
     mpz_add(IQGRSGloop_n_large_ancila, IQGRSGloop_n_large_ancila, QRA_ancila2);
     mpz_add(IQGRSGloop_n_large_ancila, IQGRSGloop_n_large_ancila, CGRSGloop_n_large_ancila);
-    // mpz_add(IQGRSGloop_n_large_ancila, IQGRSGloop_n_large_ancila, QRA_ancila3);
-    // mpz_add(IQGRSGloop_n_large_ancila, IQGRSGloop_n_large_ancila, QRA_ancila4);
     mpz_add(IQGRSGloop_n_large_ancila, IQGRSGloop_n_large_ancila, OPF_ancila);
     mpz_add(IQGRSGloop_n_large_ancila, IQGRSGloop_n_large_ancila, dif_ancila);
 }
 
 
-/*
- IQGRS_n_large_Gcost, IQGRSGloop_n_large_Gcost, grover_iteration, grover_processor_num, m, r を引数にとったとき，
- n >= m での改善版量子GRSアルゴリズム全体の G-cost を IQGRS_n_large_Gcost に格納する関数
-*/
 void compute_IQGRS_n_large_Gcost(mpz_t IQGRS_n_large_Gcost, mpz_t IQGRSGloop_n_large_Gcost, mpz_t grover_iteration, mpz_t grover_processor_num, mpz_t m, mpz_t w, mpz_t r){
     mpz_t QRA_Gcost, QRA_Dcost, QRA_ancila;
     mpz_init_set_ui(QRA_Gcost, 0);
@@ -396,10 +351,6 @@ void compute_IQGRS_n_large_Gcost(mpz_t IQGRS_n_large_Gcost, mpz_t IQGRSGloop_n_l
 }
 
 
-/*
- IQGRS_n_large_Dcost, IQGRSGloop_n_large_Dcost, grover_iteration, grover_processor_num, m, r を引数にとったとき，
- n >= m での改善版量子GRSアルゴリズム全体の D-cost を IQGRS_n_large_Dcost に格納する関数
-*/
 void compute_IQGRS_n_large_Dcost(mpz_t IQGRS_n_large_Dcost, mpz_t IQGRSGloop_n_large_Dcost, mpz_t grover_iteration, mpz_t grover_processor_num, mpz_t m, mpz_t w, mpz_t r){
     mpz_t QRA_Gcost, QRA_Dcost, QRA_ancila;
     mpz_init_set_ui(QRA_Gcost, 0);
@@ -434,10 +385,6 @@ void compute_IQGRS_n_large_Dcost(mpz_t IQGRS_n_large_Dcost, mpz_t IQGRSGloop_n_l
 }
 
 
-/*
- IQGRS_n_large_Wcost, IQGRSGloop_n_large_ancila, grover_iteration, grover_processor_num, n, m, k, r を引数にとったとき，
- n >= m での改善版量子GRSアルゴリズム全体の W-cost を IQGRS_n_large_Wcost に格納する関数
-*/
 void compute_IQGRS_n_large_Wcost(mpz_t IQGRS_n_large_Wcost, mpz_t IQGRSGloop_n_large_ancila, mpz_t grover_iteration, mpz_t grover_processor_num, mpz_t n, mpz_t m, mpz_t k, mpz_t w, mpz_t r){
     mpz_t IQGRS_n_large_input;
     mpz_init_set_ui(IQGRS_n_large_input, 0);
@@ -472,7 +419,7 @@ void compute_IQGRS_n_large_Wcost(mpz_t IQGRS_n_large_Wcost, mpz_t IQGRSGloop_n_l
     mpz_mul(nMm, n, m);
     mpz_mul(coefficient, coefficient, mMr);
 
-    // IQGRS_n_large_input を計算する
+    // compute IQGRS_n_large_input
     mpz_add(IQGRS_n_large_input, IQGRS_n_large_input, nSkMmMn);
     mpz_add(IQGRS_n_large_input, IQGRS_n_large_input, nSkMm);
     mpz_add(IQGRS_n_large_input, IQGRS_n_large_input, coefficient);
@@ -489,11 +436,6 @@ void compute_IQGRS_n_large_Wcost(mpz_t IQGRS_n_large_Wcost, mpz_t IQGRSGloop_n_l
 }
 
 
-/*
- CGRSGloop_m_large_Gcost, CGRSGloop_m_large_Dcost, CGRSGloop_m_large_ancila, m, n, k, r を引数にとったとき，
- m > n での古典GRSアルゴリズムの for 文のループ回数の G-cost, D-cost, アンシラビット数を
- それぞれ CGRSGloop_m_large_Gcost, CGRSGloop_m_large_Dcost, CGRSGloop_m_large_ancila に格納する関数
-*/
 void compute_CGRSGloop_m_large(mpz_t CGRSGloop_m_large_Gcost, mpz_t CGRSGloop_m_large_Dcost, mpz_t CGRSGloop_m_large_ancila, mpz_t m, mpz_t n, mpz_t k, mpz_t r){
     mpz_t rankpow_Gcost, rankpow_Dcost, rankpow_ancila;
     mpz_t mulpow_Gcost1, mulpow_Dcost1, mulpow_ancila1;
@@ -573,7 +515,7 @@ void compute_CGRSGloop_m_large(mpz_t CGRSGloop_m_large_Gcost, mpz_t CGRSGloop_m_
     mpz_mul(addpow_Dcost2, addpow_Dcost2, mMn);
     mpz_mul(addpow_ancila2, addpow_ancila2, mMn);
 
-    // CGRSGloop_m_large_Gcost を計算する
+    // compute CGRSGloop_m_large_Gcost
     mpz_set(CGRSGloop_m_large_Gcost, rankpow_Gcost);
     mpz_add(CGRSGloop_m_large_Gcost, CGRSGloop_m_large_Gcost, mulpow_Gcost1);
     mpz_add(CGRSGloop_m_large_Gcost, CGRSGloop_m_large_Gcost, addpow_Gcost1);
@@ -583,7 +525,7 @@ void compute_CGRSGloop_m_large(mpz_t CGRSGloop_m_large_Gcost, mpz_t CGRSGloop_m_
     mpz_add(CGRSGloop_m_large_Gcost, CGRSGloop_m_large_Gcost, mulpow_Gcost3);
     mpz_add(CGRSGloop_m_large_Gcost, CGRSGloop_m_large_Gcost, addpow_Gcost3);
 
-    // CGRSGloop_m_large_Dcost を計算する
+    // compute CGRSGloop_m_large_Dcost
     mpz_set(CGRSGloop_m_large_Dcost, rankpow_Dcost);
     if(mpz_cmp(mulpow_Dcost1, CGRSGloop_m_large_Dcost) > 0){
         mpz_set(CGRSGloop_m_large_Dcost, mulpow_Dcost1);
@@ -607,7 +549,7 @@ void compute_CGRSGloop_m_large(mpz_t CGRSGloop_m_large_Gcost, mpz_t CGRSGloop_m_
         mpz_set(CGRSGloop_m_large_Dcost, addpow_Dcost3);
     }
 
-    // CGRSGloop_m_large_ancila を計算する
+    // compute CGRSGloop_m_large_ancila
     mpz_set(CGRSGloop_m_large_ancila, rankpow_ancila);
     mpz_add(CGRSGloop_m_large_ancila, CGRSGloop_m_large_ancila, mulpow_ancila1);
     mpz_add(CGRSGloop_m_large_ancila, CGRSGloop_m_large_ancila, addpow_ancila1);
@@ -619,11 +561,6 @@ void compute_CGRSGloop_m_large(mpz_t CGRSGloop_m_large_Gcost, mpz_t CGRSGloop_m_
 }
 
 
-/*
- IQGRSGloop_m_large_Gcost, IQGRSGloop_m_large_Dcost, IQGRSGloop_m_large_ancila, m, n, k, w, r を引数にとったとき，
- m > n での改善版量子GRSアルゴリズムの for 文のループ回数の G-cost, D-cost, アンシラビット数を
- それぞれ IQGRSGloop_m_large_Gcost, IQGRSGloop_m_large_Dcost, IQGRSGloop_m_large_ancila に格納する関数
-*/
 void compute_IQGRSGloop_m_large(mpz_t IQGRSGloop_m_large_Gcost, mpz_t IQGRSGloop_m_large_Dcost, mpz_t IQGRSGloop_m_large_ancila, mpz_t m, mpz_t n, mpz_t k, mpz_t w, mpz_t r){
     mpz_t QRA_Gcost1, QRA_Dcost1, QRA_ancila1;
     mpz_t QRA_Gcost2, QRA_Dcost2, QRA_ancila2;
@@ -680,36 +617,21 @@ void compute_IQGRSGloop_m_large(mpz_t IQGRSGloop_m_large_Gcost, mpz_t IQGRSGloop
     compute_OPF_cost(OPF_Gcost, OPF_Dcost, OPF_ancila, Vsize, Msize);
     compute_dif_cost(dif_Gcost, dif_Dcost, dif_ancila, Vsize);
 
-    // mpz_set(QRA_Gcost3, QRA_Gcost1);
-    // mpz_set(QRA_Dcost3, QRA_Dcost1);
-    // mpz_set(QRA_ancila3, QRA_ancila1);
-    // mpz_set(QRA_Gcost4, QRA_Gcost2);
-    // mpz_set(QRA_Dcost4, QRA_Dcost2);
-    // mpz_set(QRA_ancila4, QRA_ancila2);
-
     mpz_mul(QRA_Gcost1, QRA_Gcost1, nSkMmMnMr);
     mpz_mul(QRA_Dcost1, QRA_Dcost1, nSkMmMnMr);
     mpz_mul(QRA_ancila1, QRA_ancila1, nSkMmMnMr);
     mpz_mul(QRA_Gcost2, QRA_Gcost2, nSkMmMnMr);
     mpz_mul(QRA_Dcost2, QRA_Dcost2, nSkMmMnMr);
     mpz_mul(QRA_ancila2, QRA_ancila2, nSkMmMnMr);
-    // mpz_mul(QRA_Gcost3, QRA_Gcost3, mMr);
-    // mpz_mul(QRA_Dcost3, QRA_Dcost3, mMr);
-    // mpz_mul(QRA_ancila3, QRA_ancila3, mMr);
-    // mpz_mul(QRA_Gcost4, QRA_Gcost4, mMr);
-    // mpz_mul(QRA_Dcost4, QRA_Dcost4, mMr);
-    // mpz_mul(QRA_ancila4, QRA_ancila4, mMr);
 
-    // IQGRSGloop_m_large_Gcost の計算
+    // compute IQGRSGloop_m_large_Gcost
     mpz_set(IQGRSGloop_m_large_Gcost, QRA_Gcost1);
     mpz_add(IQGRSGloop_m_large_Gcost, IQGRSGloop_m_large_Gcost, QRA_Gcost2);
     mpz_add(IQGRSGloop_m_large_Gcost, IQGRSGloop_m_large_Gcost, CGRSGloop_m_large_Gcost);
-    // mpz_add(IQGRSGloop_m_large_Gcost, IQGRSGloop_m_large_Gcost, QRA_Gcost3);
-    // mpz_add(IQGRSGloop_m_large_Gcost, IQGRSGloop_m_large_Gcost, QRA_Gcost4);
     mpz_add(IQGRSGloop_m_large_Gcost, IQGRSGloop_m_large_Gcost, OPF_Gcost);
     mpz_add(IQGRSGloop_m_large_Gcost, IQGRSGloop_m_large_Gcost, dif_Gcost);
 
-    // IQGRSGloop_m_large_Dcost の計算
+    // compute IQGRSGloop_m_large_Dcost
     mpz_set(IQGRSGloop_m_large_Dcost, QRA_Dcost1);
     if(mpz_cmp(QRA_Dcost2, IQGRSGloop_m_large_Dcost) > 0){
         mpz_set(IQGRSGloop_m_large_Dcost, QRA_Dcost2);
@@ -717,12 +639,6 @@ void compute_IQGRSGloop_m_large(mpz_t IQGRSGloop_m_large_Gcost, mpz_t IQGRSGloop
     if(mpz_cmp(CGRSGloop_m_large_Dcost, IQGRSGloop_m_large_Dcost) > 0){
         mpz_set(IQGRSGloop_m_large_Dcost, CGRSGloop_m_large_Dcost);
     }
-    // if(mpz_cmp(QRA_Dcost3, IQGRSGloop_m_large_Dcost) > 0){
-    //     mpz_set(IQGRSGloop_m_large_Dcost, QRA_Dcost3);
-    // }
-    // if(mpz_cmp(QRA_Dcost4, IQGRSGloop_m_large_Dcost) > 0){
-    //     mpz_set(IQGRSGloop_m_large_Dcost, QRA_Dcost4);
-    // }
     if(mpz_cmp(OPF_Dcost, IQGRSGloop_m_large_Dcost) > 0){
         mpz_set(IQGRSGloop_m_large_Dcost, OPF_Dcost);
     }
@@ -730,21 +646,15 @@ void compute_IQGRSGloop_m_large(mpz_t IQGRSGloop_m_large_Gcost, mpz_t IQGRSGloop
         mpz_set(IQGRSGloop_m_large_Dcost, dif_Dcost);
     }
 
-    // IQGRSGloop_m_large_ancila の計算
+    // compute IQGRSGloop_m_large_ancila
     mpz_set(IQGRSGloop_m_large_ancila, QRA_ancila1);
     mpz_add(IQGRSGloop_m_large_ancila, IQGRSGloop_m_large_ancila, QRA_ancila2);
     mpz_add(IQGRSGloop_m_large_ancila, IQGRSGloop_m_large_ancila, CGRSGloop_m_large_ancila);
-    // mpz_add(IQGRSGloop_m_large_ancila, IQGRSGloop_m_large_ancila, QRA_ancila3);
-    // mpz_add(IQGRSGloop_m_large_ancila, IQGRSGloop_m_large_ancila, QRA_ancila4);
     mpz_add(IQGRSGloop_m_large_ancila, IQGRSGloop_m_large_ancila, OPF_ancila);
     mpz_add(IQGRSGloop_m_large_ancila, IQGRSGloop_m_large_ancila, dif_ancila);
 }
 
 
-/*
- IQGRS_m_large_Gcost, IQGRSGloop_m_large_Gcost, grover_iteration, grover_processor_num, n, r を引数にとったとき，
- m > n での改善版量子GRSアルゴリズム全体の G-cost を IQGRS_m_large_Gcost に格納する関数
-*/
 void compute_IQGRS_m_large_Gcost(mpz_t IQGRS_m_large_Gcost, mpz_t IQGRSGloop_m_large_Gcost, mpz_t grover_iteration, mpz_t grover_processor_num, mpz_t n, mpz_t w, mpz_t r){
     mpz_t QRA_Gcost, QRA_Dcost, QRA_ancila;
     mpz_init_set_ui(QRA_Gcost, 0);
@@ -771,7 +681,6 @@ void compute_IQGRS_m_large_Gcost(mpz_t IQGRS_m_large_Gcost, mpz_t IQGRSGloop_m_l
 
     mpz_t num_Hgate;
     mpz_init_set_ui(num_Hgate, log_coefficient);
-
     
     mpz_set(IQGRS_m_large_Gcost, IQGRSGloop_m_large_Gcost);
     mpz_mul(IQGRS_m_large_Gcost, IQGRS_m_large_Gcost, grover_iteration);
@@ -783,10 +692,6 @@ void compute_IQGRS_m_large_Gcost(mpz_t IQGRS_m_large_Gcost, mpz_t IQGRSGloop_m_l
 }
 
 
-/*
- IQGRS_m_large_Dcost, IQGRSGloop_m_large_Dcost, grover_iteration, grover_processor_num, n, r を引数にとったとき，
- m > n での改善版量子GRSアルゴリズム全体の D-cost を IQGRS_m_large_Dcost に格納する関数
-*/
 void compute_IQGRS_m_large_Dcost(mpz_t IQGRS_m_large_Dcost, mpz_t IQGRSGloop_m_large_Dcost, mpz_t grover_iteration, mpz_t grover_processor_num, mpz_t n, mpz_t w, mpz_t r){
     mpz_t QRA_Gcost, QRA_Dcost, QRA_ancila;
     mpz_init_set_ui(QRA_Gcost, 0);
@@ -821,10 +726,6 @@ void compute_IQGRS_m_large_Dcost(mpz_t IQGRS_m_large_Dcost, mpz_t IQGRSGloop_m_l
 }
 
 
-/*
- IQGRS_m_large_Wcost, IQGRSGloop_m_large_ancila, grover_iteration, grover_processor_num, n, m, k, r を引数にとったとき，
- m > n での改善版量子GRSアルゴリズム全体の W-cost を IQGRS_m_large_Wcost に格納する関数
-*/
 void compute_IQGRS_m_large_Wcost(mpz_t IQGRS_m_large_Wcost, mpz_t IQGRSGloop_m_large_ancila, mpz_t grover_iteration, mpz_t grover_processor_num, mpz_t n, mpz_t m, mpz_t k, mpz_t w, mpz_t r){
     mpz_t IQGRS_m_large_input;
     mpz_init_set_ui(IQGRS_m_large_input, 0);
@@ -864,7 +765,7 @@ void compute_IQGRS_m_large_Wcost(mpz_t IQGRS_m_large_Wcost, mpz_t IQGRSGloop_m_l
     mpz_t num_Hgate;
     mpz_init_set_ui(num_Hgate, log_coefficient);
 
-    // IQGRS_m_large_input を計算する
+    // compute IQGRS_m_large_input
     mpz_add(IQGRS_m_large_input, IQGRS_m_large_input, nSkMmMn);
     mpz_add(IQGRS_m_large_input, IQGRS_m_large_input, nSkMm);
     mpz_add(IQGRS_m_large_input, IQGRS_m_large_input, num_Hgate);

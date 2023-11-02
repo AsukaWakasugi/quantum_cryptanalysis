@@ -49,38 +49,6 @@ void compute_q_binomial(mpz_t q_binomial, mpz_t m, mpz_t r){
 }
 
 
-// /*
-//  add_Gcost, add_Dcost, add_ancila, m を引数にとったとき，
-//  add_Gcost に 2m, add_Dcost に 2，add_ancila に m を格納する関数
-// */
-// void compute_add_cost(mpz_t add_Gcost, mpz_t add_Dcost, mpz_t add_ancila, mpz_t m){
-//     mpz_set_ui(add_Gcost, 2);
-//     mpz_mul(add_Gcost, add_Gcost, m);
-
-//     mpz_set_ui(add_Dcost, 2);
-
-//     mpz_set(add_ancila, m);
-// }
-
-
-// /*
-//  matmul_Gcost, matmul_Dcost, matmul_ancila, l, m, n を引数にとったとき，
-//  matmul_Gcost に 24 l m n, matmul_Dcost に 16 m，matmul_ancila に l n を格納する関数
-// */
-// void compute_matmul_cost(mpz_t matmul_Gcost, mpz_t matmul_Dcost, mpz_t matmul_ancila, mpz_t l, mpz_t m, mpz_t n){
-//     mpz_set_ui(matmul_Gcost, 24);
-//     mpz_mul(matmul_Gcost, matmul_Gcost, l);
-//     mpz_mul(matmul_Gcost, matmul_Gcost, m);
-//     mpz_mul(matmul_Gcost, matmul_Gcost, n);
-
-//     mpz_set_ui(matmul_Dcost, 16);
-//     mpz_mul(matmul_Dcost, matmul_Dcost, m);
-
-//     mpz_set(matmul_ancila, l);
-//     mpz_mul(matmul_ancila, matmul_ancila, n);
-// }
-
-
 /*
  GE_Gcost, GE_Dcost, GE_ancila, r, n を引数にとったとき，
  GE_Gcost に 4(r - 1)r(3 n - r + 5), GE_Dcost に 16 (r - 1)，GE_ancila に r^2 を格納する関数
@@ -120,44 +88,11 @@ void compute_GE_cost(mpz_t GE_Gcost, mpz_t GE_Dcost, mpz_t GE_ancila, mpz_t r, m
 }
 
 
-// /*
-//  Ham_Gcost, Ham_Dcost, Ham_ancila, m を引数にとったとき，
-//  Ham_Gcost に 51(m - 1), Ham_Dcost に 32，Ham_ancila に 2(m - 1) + log_2 (m) を格納する関数
-// */
-// void compute_Ham_cost(mpz_t Ham_Gcost, mpz_t Ham_Dcost, mpz_t Ham_ancila, mpz_t m){
-//     mpz_t mS1, cp_m, log_m;
-//     mpz_init_set(cp_m, m);
-//     mpz_init_set_ui(mS1, 0);
-//     mpz_sub_ui(mS1, m, 1);
-//     mpz_init(log_m);
-//     int logm = compute_log(cp_m);
-//     mpz_set_ui(log_m, logm);
-
-//     mpz_set_ui(Ham_Gcost, 51);
-//     mpz_mul(Ham_Gcost, Ham_Gcost, mS1);
-
-//     mpz_set_ui(Ham_Dcost, 32);
-
-//     mpz_set_ui(Ham_ancila, 2);
-//     mpz_mul(Ham_ancila, Ham_ancila, mS1);
-//     mpz_add(Ham_ancila, Ham_ancila, log_m);
-// }
-
-
 /*
  addpow_Gcost, addpow_Dcost, addpow_ancila, m を引数にとったとき，
  addpow_Gcost に 26 m - 23, addpow_Dcost に 16，addpow_ancila に 2 m - 1 を格納する関数
 */
 void compute_addpow_cost(mpz_t addpow_Gcost, mpz_t addpow_Dcost, mpz_t addpow_ancila, mpz_t m){
-    // mpz_set_ui(addpow_Gcost, 26);
-    // mpz_mul(addpow_Gcost, addpow_Gcost, m);
-    // mpz_sub_ui(addpow_Gcost, addpow_Gcost, 23);
-
-    // mpz_set_ui(addpow_Dcost, 16);
-
-    // mpz_set_ui(addpow_ancila, 2);
-    // mpz_mul(addpow_ancila, addpow_ancila, m);
-    // mpz_sub_ui(addpow_ancila, addpow_ancila, 1);
     mpz_set_ui(addpow_Gcost, 2);
     mpz_mul(addpow_Gcost, addpow_Gcost, m);
 
@@ -172,26 +107,6 @@ void compute_addpow_cost(mpz_t addpow_Gcost, mpz_t addpow_Dcost, mpz_t addpow_an
  mulpow_Gcost に 12 m (m + 1), mulpow_Dcost に 16 m，mulpow_ancila に m を格納する関数
 */
 void compute_mulpow_cost(mpz_t mulpow_Gcost, mpz_t mulpow_Dcost, mpz_t mulpow_ancila, mpz_t m){
-    // mpz_t mA1;
-    // mpz_init_set_ui(mA1, 1);
-    // mpz_add(mA1, mA1, m);
-
-    // mpz_set_ui(mulpow_Gcost, 12);
-    // mpz_mul(mulpow_Gcost, mulpow_Gcost, m);
-    // mpz_mul(mulpow_Gcost, mulpow_Gcost, mA1);
-
-    // mpz_t c25m, mMm;
-    // mpz_init_set_ui(c25m, 25);
-    // mpz_mul(c25m, c25m, m);
-    // mpz_init_set(mMm, m);
-    // mpz_mul(mMm, m, m);
-
-    // mpz_set(mulpow_Gcost, c25m);
-    // mpz_sub_ui(mulpow_Gcost, mulpow_Gcost, 9);
-    // mpz_mul(mulpow_Gcost, mulpow_Gcost, m);
-    // mpz_mul_ui(mulpow_Gcost, mulpow_Gcost, 9);
-    // mpz_cdiv_q_ui(mulpow_Gcost, mulpow_Gcost, 2);
-
     mpz_t mMm;
     mpz_init_set(mMm, m);
     mpz_mul(mMm, m, m);
@@ -199,22 +114,12 @@ void compute_mulpow_cost(mpz_t mulpow_Gcost, mpz_t mulpow_Dcost, mpz_t mulpow_an
     mpz_set_ui(mulpow_Gcost, 40);
     mpz_mul(mulpow_Gcost, mulpow_Gcost, mMm);
     mpz_sub_ui(mulpow_Gcost, mulpow_Gcost, 16);
-
-    // mpz_set_ui(mulpow_Gcost, 25);
-    // mpz_mul(mulpow_Gcost, mulpow_Gcost, m);
-    // mpz_sub_ui(mulpow_Gcost, mulpow_Gcost, 9);
-    // mpz_mul(mulpow_Gcost, mulpow_Gcost, m);
-    // mpz_mul_ui(mulpow_Gcost, mulpow_Gcost, 9);
-    // mpz_cdiv_q_ui(mulpow_Gcost, mulpow_Gcost, 2);
     
     mpz_set_ui(mulpow_Dcost, 18);
     mpz_mul(mulpow_Dcost, mulpow_Dcost, m);
     mpz_sub_ui(mulpow_Dcost, mulpow_Dcost, 2);
 
     mpz_set(mulpow_ancila, m);
-    // mpz_mul(mulpow_ancila, mulpow_ancila, m);
-    // mpz_add(mulpow_ancila, mulpow_ancila, m);
-    // mpz_add_ui(mulpow_ancila, mulpow_ancila, 1);
 }
 
 
@@ -241,18 +146,6 @@ void compute_rankpow_cost(mpz_t rankpow_Gcost, mpz_t rankpow_Dcost, mpz_t rankpo
     mpz_mul(rankpow_Gcost, rankpow_Gcost, nS1);
     mpz_add(rankpow_Gcost, rankpow_Gcost, nMm);
     
-    // mpz_t nS1, nM3SmA5;
-    // mpz_init(nS1);
-    // mpz_sub_ui(nS1, n, 1);
-    // mpz_init_set_ui(nM3SmA5, 5);
-    // mpz_addmul_ui(nM3SmA5, n, 3);
-    // mpz_sub(nM3SmA5, nM3SmA5, m);
-
-    // mpz_set_ui(rankpow_Gcost, 4);
-    // mpz_mul(rankpow_Gcost, rankpow_Gcost, nS1);
-    // mpz_mul(rankpow_Gcost, rankpow_Gcost, n);
-    // mpz_mul(rankpow_Gcost, rankpow_Gcost, nM3SmA5);
-
     mpz_set_ui(rankpow_Dcost, 16);
     mpz_addmul_ui(rankpow_Dcost, m, 16);
 
@@ -321,74 +214,6 @@ void compute_Dicke_cost(mpz_t Dicke_Gcost, mpz_t Dicke_Dcost, mpz_t Dicke_ancila
 
 
 /*
- sort_Gcost, sort_Dcost, sort_ancila, n, k, r を引数にとったとき，
- sort_Gcost に 2(n - 1)log_2 (n)(log_2 (n) - 1), 
- sort_Dcost に 2(n - 1)log_2 (n)(log_2 (n) - 1), 
- sort_ancila に (n - 1)log_2 (n)(log_2 (n) - 1)(r + 1) を格納する関数
-*/
-void compute_sort_cost(mpz_t sort_Gcost, mpz_t sort_Dcost, mpz_t sort_ancila, mpz_t n, mpz_t k, mpz_t r){
-    mpz_t nS1, cp_n, log_n, log_nS1, rA1;
-    mpz_init(nS1);
-    mpz_sub_ui(nS1, n, 1);
-    mpz_init_set(cp_n, n);
-    mpz_init(log_n);
-    int logn = compute_log(cp_n);
-    mpz_set_ui(log_n, logn);
-    mpz_init(log_nS1);
-    mpz_sub_ui(log_nS1, log_n, 1);
-    mpz_init_set_ui(rA1, 1);
-    mpz_add(rA1, rA1, r);
-
-    mpz_t base_cost;
-    mpz_init_set(base_cost, nS1);
-    mpz_mul(base_cost, base_cost, log_n);
-    mpz_mul(base_cost, base_cost, log_nS1);
-
-    mpz_set(sort_Gcost, base_cost);
-    mpz_mul_ui(sort_Gcost, sort_Gcost, 2);
-
-    mpz_set(sort_Dcost, sort_Gcost);
-
-    mpz_set(sort_ancila, rA1);
-    mpz_mul(sort_ancila, sort_ancila, base_cost);
-}
-
-
-/*
- spDicke_Gcost, spDicke_Dcost, spDicke_ancila, n, k, r を引数にとったとき，
- spDicke_Gcost に Dicke_Gcost + sort_Gcost, 
- spDicke_Dcost に max{Dicke_Dcost, sort_Dcost}, 
- spDicke_ancila に Dicke_ancila + sort_ancila を格納する関数
-*/
-void compute_spDicke_cost(mpz_t spDicke_Gcost, mpz_t spDicke_Dcost, mpz_t spDicke_ancila, mpz_t n, mpz_t k, mpz_t r){
-    mpz_t Dicke_Gcost, Dicke_Dcost, Dicke_ancila;
-    mpz_t sort_Gcost, sort_Dcost, sort_ancila;
-    mpz_init_set_ui(Dicke_Gcost, 0);
-    mpz_init_set_ui(Dicke_Dcost, 0);
-    mpz_init_set_ui(Dicke_ancila, 0);
-    mpz_init_set_ui(sort_Gcost, 0);
-    mpz_init_set_ui(sort_Dcost, 0);
-    mpz_init_set_ui(sort_ancila, 0);
-
-    compute_Dicke_cost(Dicke_Gcost, Dicke_Dcost, Dicke_ancila, n, r);
-    compute_sort_cost(sort_Gcost, sort_Dcost, sort_ancila, n, k, r);
-
-    mpz_set(spDicke_Gcost, Dicke_Gcost);
-    mpz_add(spDicke_Gcost, spDicke_Gcost, sort_Gcost);
-
-    if(mpz_cmp(Dicke_Dcost, sort_Dcost) > 0){
-        mpz_set(spDicke_Dcost, Dicke_Dcost);
-    }
-    else{
-        mpz_set(spDicke_Dcost, sort_Dcost);
-    }
-
-    mpz_set(spDicke_ancila, Dicke_ancila);
-    mpz_add(spDicke_ancila, spDicke_ancila, sort_ancila);
-}
-
-
-/*
  sp_Gcost, sp_Dcost, sp_ancila, Vsize を引数にとったとき，
  sp_Gcost に Vsize, 
  sp_Dcost に 1, 
@@ -400,23 +225,6 @@ void compute_sp_cost(mpz_t sp_Gcost, mpz_t sp_Dcost, mpz_t sp_ancila, mpz_t Vsiz
     mpz_set_ui(sp_Dcost, 1);
 
     mpz_set_ui(sp_ancila, 0);
-}
-
-
-/*
- OPFDicke_Gcost, OPFDicke_Dcost, OPFDicke_ancila, x を引数にとったとき，
- OPFDicke_Gcost に 48 x - 46, 
- OPFDicke_Dcost に 32, 
- OPFDicke_ancila に x を格納する関数
-*/
-void compute_OPFDicke_cost(mpz_t OPFDicke_Gcost, mpz_t OPFDicke_Dcost, mpz_t OPFDicke_ancila, mpz_t x){
-    mpz_set(OPFDicke_Gcost, x);
-    mpz_mul_ui(OPFDicke_Gcost, OPFDicke_Gcost, 48);
-    mpz_sub_ui(OPFDicke_Gcost, OPFDicke_Gcost, 46);
-
-    mpz_set_ui(OPFDicke_Dcost, 32);
-
-    mpz_set(OPFDicke_ancila, x);
 }
 
 
@@ -451,74 +259,6 @@ void compute_dif_cost(mpz_t dif_Gcost, mpz_t dif_Dcost, mpz_t dif_ancila, mpz_t 
 
     mpz_set(dif_ancila, Vsize);
     mpz_sub_ui(dif_ancila, dif_ancila, 1);
-}
-
-
-/*
- matmul_Gcost, matmul_Dcost, matmul_ancila, l, m, n を引数にとったとき，
- matmul_Gcost に 24 l m n, matmul_Dcost に 16 m，matmul_ancila に l n を格納する関数
-*/
-void compute_matmul_Tcost(mpz_t matmul_Gcost, mpz_t matmul_Dcost, mpz_t matmul_ancila, mpz_t l, mpz_t m, mpz_t n){
-    mpz_set_ui(matmul_Gcost, 13);
-    mpz_mul(matmul_Gcost, matmul_Gcost, l);
-    mpz_mul(matmul_Gcost, matmul_Gcost, m);
-    mpz_mul(matmul_Gcost, matmul_Gcost, n);
-
-    mpz_set_ui(matmul_Dcost, 8);
-    mpz_mul(matmul_Dcost, matmul_Dcost, m);
-
-    mpz_set(matmul_ancila, l);
-    mpz_mul(matmul_ancila, matmul_ancila, n);
-}
-
-
-/*
- GE_Gcost, GE_Dcost, GE_ancila, r, n を引数にとったとき，
- GE_Gcost に 4(r - 1)r(3 n - r + 5), GE_Dcost に 16 (r - 1)，GE_ancila に r^2 を格納する関数
-*/
-void compute_GE_Tcost(mpz_t GE_Gcost, mpz_t GE_Dcost, mpz_t GE_ancila, mpz_t r, mpz_t n){
-    mpz_t rS1, nM3SrA5;
-    mpz_init(rS1);
-    mpz_sub_ui(rS1, r, 1);
-    mpz_init_set_ui(nM3SrA5, 5);
-    mpz_addmul_ui(nM3SrA5, n, 3);
-    mpz_sub(nM3SrA5, nM3SrA5, r);
-
-    mpz_set_ui(GE_Gcost, 13);
-    mpz_mul(GE_Gcost, GE_Gcost, r);
-    mpz_mul(GE_Gcost, GE_Gcost, rS1);
-    mpz_mul(GE_Gcost, GE_Gcost, nM3SrA5);
-    mpz_cdiv_q_ui(GE_Gcost, GE_Gcost, 6);
-
-    mpz_set_ui(GE_Dcost, 8);
-    mpz_mul(GE_Dcost, GE_Dcost, rS1);
-
-    mpz_set(GE_ancila, r);
-    mpz_mul(GE_ancila, GE_ancila, r);
-}
-
-
-/*
- Ham_Gcost, Ham_Dcost, Ham_ancila, m を引数にとったとき，
- Ham_Gcost に 51(m - 1), Ham_Dcost に 32，Ham_ancila に 2(m - 1) + log_2 (m) を格納する関数
-*/
-void compute_Ham_Tcost(mpz_t Ham_Gcost, mpz_t Ham_Dcost, mpz_t Ham_ancila, mpz_t m){
-    mpz_t mS1, cp_m, log_m;
-    mpz_init_set(cp_m, m);
-    mpz_init_set_ui(mS1, 0);
-    mpz_sub_ui(mS1, m, 1);
-    mpz_init(log_m);
-    int logm = compute_log(cp_m);
-    mpz_set_ui(log_m, logm);
-
-    mpz_set_ui(Ham_Gcost, 26);
-    mpz_mul(Ham_Gcost, Ham_Gcost, mS1);
-
-    mpz_set_ui(Ham_Dcost, 16);
-
-    mpz_set_ui(Ham_ancila, 2);
-    mpz_mul(Ham_ancila, Ham_ancila, mS1);
-    mpz_add(Ham_ancila, Ham_ancila, log_m);
 }
 
 /*
