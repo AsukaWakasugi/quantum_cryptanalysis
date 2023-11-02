@@ -4,10 +4,6 @@
 #include "basic_operation.h"
 
 
-/*
-  q_analogue, m を引数にとったとき，m の q 類似を q_analogue に格納する関数
-  * q = 2 のとき，m の q 類似は 2^m - 1
-*/
 void compute_q_analogue(mpz_t q_analogue, mpz_t m){
     mpz_t loop_index;
     mpz_init_set_ui(loop_index, 0);
@@ -19,10 +15,7 @@ void compute_q_analogue(mpz_t q_analogue, mpz_t m){
     mpz_sub_ui(q_analogue, q_analogue, 1);
 }
 
-/*
-  q_binomial, m, r を引数にとったとき，
-  m と r の q 二項係数を q_binomial に格納する関数
-*/
+
 void compute_q_binomial(mpz_t q_binomial, mpz_t m, mpz_t r){
     mpz_t q_binomial_denominator, q_binomial_numerator;
     mpz_init(q_binomial_denominator);
@@ -49,10 +42,6 @@ void compute_q_binomial(mpz_t q_binomial, mpz_t m, mpz_t r){
 }
 
 
-/*
- GE_Gcost, GE_Dcost, GE_ancila, r, n を引数にとったとき，
- GE_Gcost に 4(r - 1)r(3 n - r + 5), GE_Dcost に 16 (r - 1)，GE_ancila に r^2 を格納する関数
-*/
 void compute_GE_cost(mpz_t GE_Gcost, mpz_t GE_Dcost, mpz_t GE_ancila, mpz_t r, mpz_t n){
     mpz_t rS1, c36n, c20r, c9n, c4r;
     mpz_init(rS1);
@@ -88,10 +77,6 @@ void compute_GE_cost(mpz_t GE_Gcost, mpz_t GE_Dcost, mpz_t GE_ancila, mpz_t r, m
 }
 
 
-/*
- addpow_Gcost, addpow_Dcost, addpow_ancila, m を引数にとったとき，
- addpow_Gcost に 26 m - 23, addpow_Dcost に 16，addpow_ancila に 2 m - 1 を格納する関数
-*/
 void compute_addpow_cost(mpz_t addpow_Gcost, mpz_t addpow_Dcost, mpz_t addpow_ancila, mpz_t m){
     mpz_set_ui(addpow_Gcost, 2);
     mpz_mul(addpow_Gcost, addpow_Gcost, m);
@@ -102,10 +87,6 @@ void compute_addpow_cost(mpz_t addpow_Gcost, mpz_t addpow_Dcost, mpz_t addpow_an
 }
 
 
-/*
- mulpow_Gcost, mulpow_Dcost, mulpow_ancila, m を引数にとったとき，
- mulpow_Gcost に 12 m (m + 1), mulpow_Dcost に 16 m，mulpow_ancila に m を格納する関数
-*/
 void compute_mulpow_cost(mpz_t mulpow_Gcost, mpz_t mulpow_Dcost, mpz_t mulpow_ancila, mpz_t m){
     mpz_t mMm;
     mpz_init_set(mMm, m);
@@ -123,10 +104,6 @@ void compute_mulpow_cost(mpz_t mulpow_Gcost, mpz_t mulpow_Dcost, mpz_t mulpow_an
 }
 
 
-/*
- rankpow_Gcost, rankpow_Dcost, rankpow_ancila, n, m を引数にとったとき，
- rankpow_Gcost に 4 (n - 1)n(3 n - m + 5), rankpow_Dcost に 16 (m + 1)，rankpow_ancila に n m を格納する関数
-*/
 void compute_rankpow_cost(mpz_t rankpow_Gcost, mpz_t rankpow_Dcost, mpz_t rankpow_ancila, mpz_t n, mpz_t m){
     mpz_t nS1, c36m, c20n, nMm;
     mpz_init_set(nS1, n);
@@ -153,10 +130,6 @@ void compute_rankpow_cost(mpz_t rankpow_Gcost, mpz_t rankpow_Dcost, mpz_t rankpo
 }
 
 
-/*
- QRA_Gcost, QRA_Dcost, QRA_ancila, n, m を引数にとったとき，
- QRA_Gcost に n m + n log_2 (n), QRA_Dcost に log_2 (m) + log_2 (n)，QRA_ancila に n m + n log_2 (n) を格納する関数
-*/
 void compute_QRA_cost(mpz_t QRA_Gcost, mpz_t QRA_Dcost, mpz_t QRA_ancila, mpz_t n, mpz_t m){
     mpz_t cp_m, cp_n, log_m, log_n;
     mpz_init_set(cp_m, m);
@@ -179,46 +152,6 @@ void compute_QRA_cost(mpz_t QRA_Gcost, mpz_t QRA_Dcost, mpz_t QRA_ancila, mpz_t 
 }
 
 
-/*
- Dicke_Gcost, Dicke_Dcost, Dicke_ancila, n, r を引数にとったとき，
- Dicke_Gcost に 1221 n r - 1221 r^2 - 601 n + 4 r + 304, 
- Dicke_Dcost に (27 n r - 12 n - 27 r^2 + 3) / (r - 2), 
- Dicke_ancila に 0 を格納する関数
-*/
-void compute_Dicke_cost(mpz_t Dicke_Gcost, mpz_t Dicke_Dcost, mpz_t Dicke_ancila, mpz_t n, mpz_t r){
-    mpz_t rS2, nSr, c601n, c12n;
-    mpz_init(rS2);
-    mpz_sub_ui(rS2, r, 2);
-    mpz_init(nSr);
-    mpz_sub(nSr, n, r);
-    mpz_init_set_ui(c601n, 601);
-    mpz_mul(c601n, c601n, n);
-    mpz_init_set_ui(c12n, 12);
-    mpz_mul(c12n, c12n, n);
-
-    mpz_set_ui(Dicke_Gcost, 1221);
-    mpz_mul(Dicke_Gcost, Dicke_Gcost, r);
-    mpz_mul(Dicke_Gcost, Dicke_Gcost, nSr);
-    mpz_sub(Dicke_Gcost, Dicke_Gcost, c601n);
-    mpz_addmul_ui(Dicke_Gcost, r, 4);
-    mpz_add_ui(Dicke_Gcost, Dicke_Gcost, 304);
-
-    mpz_set_ui(Dicke_Dcost, 27);
-    mpz_mul(Dicke_Dcost, Dicke_Dcost, r);
-    mpz_mul(Dicke_Dcost, Dicke_Dcost, nSr);
-    mpz_sub(Dicke_Dcost, Dicke_Dcost, c12n);
-    mpz_cdiv_q(Dicke_Dcost, Dicke_Dcost, rS2);
-
-    mpz_set_ui(Dicke_ancila, 0);
-}
-
-
-/*
- sp_Gcost, sp_Dcost, sp_ancila, Vsize を引数にとったとき，
- sp_Gcost に Vsize, 
- sp_Dcost に 1, 
- sp_ancila に 0 を格納する関数
-*/
 void compute_sp_cost(mpz_t sp_Gcost, mpz_t sp_Dcost, mpz_t sp_ancila, mpz_t Vsize){
     mpz_set(sp_Gcost, Vsize);
 
@@ -228,12 +161,6 @@ void compute_sp_cost(mpz_t sp_Gcost, mpz_t sp_Dcost, mpz_t sp_ancila, mpz_t Vsiz
 }
 
 
-/*
- OPF_Gcost, OPF_Dcost, OPF_ancila, Vsize, Msize を引数にとったとき，
- OPF_Gcost に 4 Msize, 
- OPF_Dcost に 4, 
- OPF_ancila に 0 を格納する関数
-*/
 void compute_OPF_cost(mpz_t OPF_Gcost, mpz_t OPF_Dcost, mpz_t OPF_ancila, mpz_t Vsize, mpz_t Msize){
     mpz_set_ui(OPF_Gcost, 4);
     mpz_mul(OPF_Gcost, OPF_Gcost, Msize);
@@ -244,12 +171,6 @@ void compute_OPF_cost(mpz_t OPF_Gcost, mpz_t OPF_Dcost, mpz_t OPF_ancila, mpz_t 
 }
 
 
-/*
- dif_Gcost, dif_Dcost, dif_ancila, Vsize を引数にとったとき，
- dif_Gcost に 48 Vsize - 94, 
- dif_Dcost に 32, 
- dif_ancila に Vsize - 1 を格納する関数
-*/
 void compute_dif_cost(mpz_t dif_Gcost, mpz_t dif_Dcost, mpz_t dif_ancila, mpz_t Vsize){
     mpz_set(dif_Gcost, Vsize);
     mpz_mul_ui(dif_Gcost, dif_Gcost, 48);
@@ -261,9 +182,7 @@ void compute_dif_cost(mpz_t dif_Gcost, mpz_t dif_Dcost, mpz_t dif_ancila, mpz_t 
     mpz_sub_ui(dif_ancila, dif_ancila, 1);
 }
 
-/*
- nfac, n を引数にとったとき，n_fac に n! を格納する関数
-*/
+
 void compute_fac(mpz_t nfac, mpz_t n){
     mpz_t fac_index;
     mpz_init_set_ui(fac_index, 1);
@@ -275,9 +194,6 @@ void compute_fac(mpz_t nfac, mpz_t n){
 }
 
 
-/*
- cost を引数にとったとき，log2 cost を返す関数
-*/
 int compute_log(mpz_t cost){
     int cost_log = 0;
     while(mpz_cmp_ui(cost, 1) > 0){
